@@ -2,12 +2,64 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Simple CSS Playground</title>
+    <style>
+        .red-text {
+            color: red;
+        }
+
+        #main-title {
+            font-size: 40px;
+        }
+
+        .container > a {
+            color: green;
+        }
+
+        ul li {
+            color: blue;
+        }
+
+        input[type="text"] {
+            background-color: yellow;
+        }
+
+        a:hover {
+            color: green;
+        }
+
+        button.active {
+            background-color: orange;
+        }
+    </style>
 </head>
 <body>
-<div>
+    <h1 id="main-title">Main Title</h1>
+    <h2 class="red-text">Red Heading</h2>
 
+    <div class="container">
+        <a href="#">Link inside container</a>
+        <p>Some text <a href="#">Nested link</a></p>
+    </div>
 
-</div>
+    <a href="#">Link outside container</a>
+
+    <ul>
+        <li>First item</li>
+        <li>Second item</li>
+        <li class="red-text">Red item</li>
+    </ul>
+
+    <input type="text" placeholder="Text input">
+    <input type="password" placeholder="Password input">
+    <input type="email" placeholder="Email input">
+
+    <button class="active">Active button</button>
+    <button>Normal button</button>
+
+    <div>
+        <span class="red-text">Red span</span>
+        <span>Normal span</span>
+    </div>
 </body>
 </html>
