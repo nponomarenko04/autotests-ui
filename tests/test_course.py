@@ -13,7 +13,7 @@ def test_empty_courses_list():
         username_input.fill('username')
         password_input.fill('password')
         button_registration.click()
-        context.storage_state(path='browser-state.json')
+        context.storage_state(path='../browser-state.json')
 
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
