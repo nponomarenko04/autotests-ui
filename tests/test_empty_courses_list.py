@@ -1,34 +1,16 @@
-from playwright.sync_api import sync_playwright, expect
 import pytest
+from pages.courses_list_page import CoursesListPage
+from fixtures.pages import courses_list_page
+
 
 @pytest.mark.courses
 @pytest.mark.regression
-def test_empty_courses_list():
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context()
-        page = context.new_page()
-        button_registration = page.get_by_test_id("registration-page-registration-button")
-        password_input = page.get_by_test_id("registration-form-password-input").locator("input")
-        username_input = page.get_by_test_id("registration-form-username-input").locator("input")
-        email_input = page.get_by_test_id('registration-form-email-input').locator("input")
-        page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration")
-        email_input.fill('user.name@gmail.com')
-        username_input.fill('username')
-        password_input.fill('password')
-        button_registration.click()
-        context.storage_state(path='../browser-state.json')
+def test_empty_courses_list(courses_list_page: CoursesListPage):
+    courses_list_page.visit("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses")
 
-    with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False)
-        context = browser.new_context(storage_state='browser-state.json')
-        page = context.new_page()
-        empty_courses_icon = page.get_by_test_id('courses-list-empty-view-icon')
-        empty_courses_list = page.get_by_test_id('courses-list-empty-view-title-text')
-        empty_courses_text = page.get_by_test_id('courses-list-empty-view-description-text')
-        courses_logo = page.get_by_test_id('courses-list-toolbar-title-text')
-        page.goto('https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses')
-        expect(courses_logo).to_be_visible()
-        expect(empty_courses_icon).to_be_visible()
-        expect(empty_courses_list).to_have_text("There is no results")
-        expect(empty_courses_text).to_have_text("Results from the load test pipeline will be displayed here")
+    courses_list_page.navbar.check_visible("username")
+    courses_list_page.sidebar.check_visible_sidebar()
+
+    courses_list_page.check_visible_courses_title()
+    courses_list_page.check_visible_create_course_button()
+    courses_list_page.check_visible_empty_view()

@@ -35,7 +35,7 @@ def initialize_browser_state(playwright: Playwright):
 
 
 @pytest.fixture(scope="function")
-def auth_page(initialize_browser_state, playwright: Playwright) -> Page:
+def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -> Page:
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context(
         storage_state="browser-state.json",
@@ -66,3 +66,4 @@ def courses_list_page(auth_page):
 @pytest.fixture(scope="function")
 def create_course_page(auth_page):
     return CreateCoursePage(auth_page)
+
