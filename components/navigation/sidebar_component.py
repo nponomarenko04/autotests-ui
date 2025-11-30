@@ -1,21 +1,29 @@
-from playwright.sync_api import Page, expect
+import re
+
+from playwright.sync_api import Page
+
 from components.base_component import BaseComponent
+from components.navigation.sidebar_list_item_component import SidebarListItemComponent
 
 
 class SidebarComponent(BaseComponent):
     def __init__(self, page: Page):
         super().__init__(page)
 
-        self.sidebar_dashboard_button = page.get_by_test_id('dashboard-drawer-list-item-button')
-        self.sidebar_courses_button = page.get_by_test_id('courses-drawer-list-item-button')
-        self.sidebar_logout_button = page.get_by_test_id('logout-drawer-list-item-button')
+        self.logout_list_item = SidebarListItemComponent(page, 'logout')
+        self.courses_list_item = SidebarListItemComponent(page, 'courses')
+        self.dashboard_list_item = SidebarListItemComponent(page, 'dashboard')
 
-    def check_visible_sidebar(self):
-        expect(self.sidebar_dashboard_button).to_be_visible()
-        expect(self.sidebar_dashboard_button).to_have_text('Dashboard')
+    def check_visible(self):
+        self.logout_list_item.check_visible('Logout')
+        self.courses_list_item.check_visible('Courses')
+        self.dashboard_list_item.check_visible('Dashboard')
 
-        expect(self.sidebar_courses_button).to_be_visible()
-        expect(self.sidebar_courses_button).to_have_text('Courses')
+    def click_logout(self):
+        self.logout_list_item.navigate(re.compile(r".*/#/auth/login"))
 
-        expect(self.sidebar_logout_button).to_be_visible()
-        expect(self.sidebar_logout_button).to_have_text('Logout')
+    def click_courses(self):
+        self.courses_list_item.navigate(re.compile(r".*/#/courses"))
+
+    def click_dashboard(self):
+        self.dashboard_list_item.navigate(re.compile(r".*/#/dashboard"))
